@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Calendar, MapPin, Clock, Heart, Camera, ChevronRight, Menu, X, Leaf, Flower2, Download, Instagram } from 'lucide-react';
+import { Calendar, MapPin, Clock, Heart, Camera, ChevronRight, Menu, X, Leaf, Flower2, Download } from 'lucide-react';
 import FallingPetals from './components/FallingPetals';
 import { supabase } from './lib/supabase';
+
+const InstagramIcon = ({ size = 24, className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+  </svg>
+);
 
 // Import images
 import heroImg from './assets/foto_de_inicio.jpg';
@@ -544,7 +552,7 @@ const App: React.FC = () => {
           <div className="h-10 w-px bg-gold/50 mx-auto" />
           <div className="flex justify-center items-center gap-8">
             <a href="https://www.instagram.com/rebeca_alcantaras/" target="_blank" rel="noopener noreferrer" className="hover:text-gold hover:scale-110 transition-all duration-300">
-              <Instagram size={28} />
+              <InstagramIcon size={28} />
             </a>
             <Camera size={28} className="cursor-pointer hover:text-gold hover:scale-110 transition-all duration-300" />
             <Heart size={28} className="cursor-pointer hover:text-rose hover:scale-110 transition-all duration-300" />
