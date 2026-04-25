@@ -13,19 +13,31 @@ const InstagramIcon = ({ size = 24, className = "" }) => (
 );
 
 // Import images
-import heroImg from './assets/foto_de_inicio.jpg';
-import photo1 from './assets/_MG_8025.jpg';
-import photo2 from './assets/_MG_8084.jpg';
-import photo3 from './assets/_MG_8111.jpg';
-import photo4 from './assets/_MG_8182.jpg';
-import photo5 from './assets/_MG_8221.jpg';
-import photo6 from './assets/15anos.jpg';
-import photo7 from './assets/_MG_8003.jpg';
-import photo8 from './assets/_MG_8031.jpg';
-import photo9 from './assets/_MG_8041.jpg';
-import photo10 from './assets/_MG_8093.jpg';
-import photo11 from './assets/_MG_8055.jpg';
-import photo12 from './assets/_MG_8089.jpg';
+import heroImg from './assets/Galeria Mood/jardimsecreto.jpg';
+import jardimReveladoImg from './assets/Galeria Mood/jardimrevelado.jpg';
+
+const moodImagesRaw = import.meta.glob('./assets/Galeria Mood/*.{jpg,jpeg,png,JPG,JPEG}', { eager: true });
+const moodImages = Object.entries(moodImagesRaw)
+  .filter(([path]) => !path.includes('jardimsecreto.jpg'))
+  .map(([_, module]: any) => module.default);
+
+const moodCaptions = [
+  "A magia de florescer",
+  "Pétalas de um sonho",
+  "Páginas de uma nova história",
+  "Um sorriso que dança",
+  "Brilho no olhar",
+  "Encanto em cada detalhe",
+  "Onde os sonhos moram",
+  "Natureza em festa",
+  "Jardim da juventude",
+  "Luzes de uma nova estação",
+  "Sorrisos que iluminam",
+  "15 primaveras",
+  "Reflexo da alma",
+  "Beleza atemporal",
+  "Um instante eternizado"
+];
 
 const festaImagesRaw = import.meta.glob('./assets/festa-compressed/*.JPG', { eager: true });
 const festaImages = Object.values(festaImagesRaw).map((module: any) => module.default);
@@ -208,12 +220,10 @@ const App: React.FC = () => {
               />
             </div>
 
-            <h2 className="font-serif text-3xl md:text-5xl text-moss mt-6 italic tracking-tight">
-              Jardim Secreto
-            </h2>
-            
-            <p className="max-w-md text-moss/60 leading-loose font-light mt-8 text-lg">
-              Uma noite eternizada entre flores e sonhos. Bem-vindo ao registro visual de um conto de fadas real.
+            <p className="max-w-xl text-moss font-serif italic text-2xl md:text-3xl leading-relaxed mt-10">
+              Antes do grande dia de festejar, houve um instante só dela!
+              <br/>
+              O ensaio é o primeiro suspiro do Jardim Secreto… onde a magia começa a ganhar forma.
             </p>
 
             <motion.div
@@ -306,30 +316,21 @@ const App: React.FC = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            { img: photo1, caption: "A magia de florescer" },
-            { img: photo2, caption: "Pétalas de um sonho" },
-            { img: photo3, caption: "Páginas de uma nova história" },
-            { img: photo4, caption: "Um novo ciclo desabrocha" },
-            { img: photo5, caption: "Brilho no olhar" },
-            { img: photo6, caption: "Encanto em cada detalhe" },
-            { img: photo7, caption: "Onde os sonhos moram" },
-            { img: photo8, caption: "Natureza em festa" },
-            { img: photo9, caption: "Jardim da juventude" },
-            { img: photo10, caption: "Luzes de uma nova estação" },
-            { img: photo11, caption: "Sorrisos que iluminam" },
-            { img: photo12, caption: "15 primaveras" }
-          ].map((item, index) => (
+          {moodImages.map((imgUrl, index) => (
             <motion.div
               key={index}
-              whileHover={{ y: -10 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1, duration: 0.8 }}
               className={`polaroid group cursor-pointer ${index % 2 === 0 ? 'md:mt-12' : ''}`}
+              onClick={() => setSelectedImage(imgUrl)}
             >
               <div className="relative overflow-hidden mb-4 aspect-[4/5]">
-                <img src={item.img} alt={`Rebeca ensaio ${index+1}`} className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700" />
+                <img src={imgUrl} loading="lazy" alt={`Mood ${index+1}`} className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700" />
                 <div className="absolute inset-0 border-[10px] border-white/20 pointer-events-none" />
               </div>
-              <p className="font-cursive text-xl text-sage text-center">{item.caption}</p>
+              <p className="font-cursive text-xl text-sage text-center">{moodCaptions[index % moodCaptions.length]}</p>
             </motion.div>
           ))}
         </div>
@@ -353,7 +354,7 @@ const App: React.FC = () => {
                 className="polaroid group cursor-pointer"
               >
                 <div className="relative overflow-hidden mb-3 aspect-square">
-                  <img src={imgUrl} loading="lazy" alt={`Festa ${index+1}`} className="w-full h-full object-cover" />
+                  <img src={imgUrl} loading="lazy" alt={`Momento ${index+1}`} className="w-full h-full object-cover object-[50%_15%]" />
                   <div className="absolute inset-0 border-[6px] border-white/20 pointer-events-none" />
                   
                   {/* Hover overlay hint */}
@@ -364,7 +365,7 @@ const App: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <p className="font-cursive text-lg text-sage text-center truncate px-2">A Festa</p>
+                <p className="font-cursive text-base text-sage text-center px-2 leading-tight">Momentos que ficam para sempre...</p>
               </motion.div>
             ))}
           </div>
@@ -387,7 +388,7 @@ const App: React.FC = () => {
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div className="order-2 md:order-1 relative">
              <div className="absolute -top-10 -left-10 w-40 h-40 border border-gold/20 rounded-full animate-spin-slow" />
-             <img src={photo1} alt="Destaque" className="w-full h-[600px] object-cover rounded-t-full border-4 border-white shadow-2xl relative z-10" />
+             <img src={jardimReveladoImg} alt="Destaque" className="w-full h-[600px] object-cover rounded-t-full border-4 border-white shadow-2xl relative z-10" />
           </div>
           <div className="order-1 md:order-2 space-y-6">
             <h2 className="text-5xl md:text-7xl font-serif text-gold leading-tight">O Jardim <br/>Revelado</h2>
@@ -534,7 +535,7 @@ const App: React.FC = () => {
           <Heart className="mx-auto text-rose" size={40} />
           <h2 className="text-4xl md:text-5xl font-serif text-gold">Agradecimento</h2>
           <p className="text-2xl md:text-3xl font-serif italic text-moss/90 leading-relaxed max-w-3xl mx-auto">
-            "Este álbum é a prova de que os momentos mais bonitos ganham vida quando estamos rodeados de quem amamos. Cada página aqui guarda um pedaço do meu coração — e um pouco de vocês também. Obrigada por terem vindo ao meu jardim."
+            "Este álbum é a prova de que os momentos mais bonitos ganham vida quando estamos rodeados de quem amamos. Cada página aqui guarda um pedaço do meu coração — e um pouco de vocês também. Obrigada por terem vindo ao meu Jardim."
           </p>
           <div className="h-px w-20 bg-gold mx-auto" />
           <p className="font-cursive text-4xl text-rose">Com muito carinho, Rebeca</p>
