@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Great+Vibes&family=Inter:wght@300;400;500;600&display=swap');
+
+@import "tailwindcss";
+
+:root {
+  background-color: #F5F5DC; /* cream */
+  color: #4A5D23; /* moss */
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3, h4, .font-serif {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-cursive {
+  font-family: 'Great Vibes', cursive;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F5DC;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #B2AC88;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4A5D23;
+}
+
+/* Custom Cursor Placeholder */
+.custom-cursor {
+  width: 20px;
+  height: 20px;
+  background: rgba(216, 172, 156, 0.5); /* rose */
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s ease;
+}
+
+/* Base Animations */
+.section-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.section-reveal.active {
+  animation: reveal 1s ease-out forwards;
+}
+
+@keyframes reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Polaroid Style */
+.polaroid {
+  background: white;
+  padding: 1rem 1rem 3rem 1rem;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transform: rotate(-2deg);
+  transition: all 0.5s ease;
+}
+
+.polaroid:hover {
+  transform: rotate(0deg) scale(1.05);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
