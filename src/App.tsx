@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Calendar, MapPin, Clock, Gift, Heart, Camera, ChevronRight, Menu, X, Leaf, Flower2, Download, Instagram } from 'lucide-react';
+import { Calendar, MapPin, Clock, Heart, Camera, ChevronRight, Menu, X, Leaf, Flower2, Download, Instagram } from 'lucide-react';
 import FallingPetals from './components/FallingPetals';
 import { supabase } from './lib/supabase';
 
@@ -52,7 +52,7 @@ const App: React.FC = () => {
   }, []);
 
   const fetchComments = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('comments')
       .select('*')
       .order('created_at', { ascending: false });
