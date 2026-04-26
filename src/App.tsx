@@ -43,9 +43,23 @@ const destaqueImagesRaw = import.meta.glob('./assets/destaque-compressed/*.{jpg,
 const festaImagesRaw = import.meta.glob('./assets/festa-compressed/*.{jpg,jpeg,png,JPG,JPEG}', { eager: true });
 const decorImagesRaw = import.meta.glob('./assets/decoracoes-compressed/*.{jpg,jpeg,png,JPG,JPEG}', { eager: true });
 
-const destaqueImages = Object.values(destaqueImagesRaw).map((module: any) => module.default);
+const destaqueImages = Object.keys(destaqueImagesRaw)
+  .sort((a, b) => {
+    const aNum = parseInt(a.split('/').pop()?.split('.')[0] || '0');
+    const bNum = parseInt(b.split('/').pop()?.split('.')[0] || '0');
+    return aNum - bNum;
+  })
+  .map((key) => (destaqueImagesRaw[key] as any).default);
+
 const festaImagesBase = Object.values(festaImagesRaw).map((module: any) => module.default);
-const decorImages = Object.values(decorImagesRaw).map((module: any) => module.default);
+
+const decorImages = Object.keys(decorImagesRaw)
+  .sort((a, b) => {
+    const aNum = parseInt(a.split('/').pop()?.split('.')[0] || '0');
+    const bNum = parseInt(b.split('/').pop()?.split('.')[0] || '0');
+    return aNum - bNum;
+  })
+  .map((key) => (decorImagesRaw[key] as any).default);
 
 const festaImages = [...destaqueImages, ...festaImagesBase, ...decorImages];
 
