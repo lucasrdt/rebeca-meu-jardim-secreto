@@ -336,7 +336,7 @@ const App: React.FC = () => {
               </div>
               <div className="text-left">
                 <p className="text-xs uppercase tracking-widest text-sage font-bold">Data do Sonho</p>
-                <p className="font-serif text-moss">19 Abril</p>
+                <p className="font-serif text-moss">19 Abril 2026</p>
               </div>
             </motion.div>
           </motion.div>
@@ -570,7 +570,7 @@ const App: React.FC = () => {
           <Heart className="mx-auto text-rose" size={40} />
           <h2 className="text-4xl md:text-5xl font-serif text-gold">Agradecimento</h2>
           <p className="text-2xl md:text-3xl font-serif italic text-moss/90 leading-relaxed max-w-3xl mx-auto">
-            "Este álbum é a prova de que os momentos mais bonitos ganham vida quando estamos rodeados de quem amamos. Cada página aqui guarda um pedaço do meu coração — e um pouco de vocês também. Obrigada por terem vindo ao meu Jardim."
+            "Este álbum é a prova de que Deus faz florescer os momentos mais bonitos quando estamos rodeados de quem amamos. Cada página aqui guarda um pedaço do meu coração — e um pouco de vocês também. Obrigada por terem vindo ao meu Jardim Secreto."
           </p>
           <div className="h-px w-20 bg-gold mx-auto" />
           <p className="font-cursive text-4xl text-rose">Com muito carinho, Rebeca</p>
