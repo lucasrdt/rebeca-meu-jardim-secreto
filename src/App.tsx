@@ -16,73 +16,10 @@ const InstagramIcon = ({ size = 24, className = "" }) => (
 import heroImg from './assets/Galeria Mood/jardimsecreto.jpg';
 import jardimReveladoImg from './assets/Galeria Mood/jardimrevelado.jpg';
 
-const moodImagesRaw = import.meta.glob('./assets/Galeria Mood/*.{jpg,jpeg,png,JPG,JPEG}', { eager: true });
-
-const moodCaptions = [
-  "A magia de florescer!",
-  "Pétalas de um sonho!",
-  "Páginas de uma nova história!",
-  "Um sorriso que dança!",
-  "Brilho no olhar!",
-  "Encanto em cada detalhe!",
-  "Onde os sonhos moram!",
-  "Natureza em festa!",
-  "Jardim da juventude!",
-  "Luzes de uma nova estação!",
-  "Sorrisos que iluminam!",
-  "15 primaveras!",
-  "Reflexo da alma!",
-  "Beleza atemporal!",
-  "Um instante eternizado!"
-];
-
-const moodImages = Object.entries(moodImagesRaw)
-  .filter(([path]) => !path.includes('jardimsecreto.jpg') && !path.includes('jardimrevelado.jpg'))
-  .map(([path, module]: any, index) => {
-    const filename = path.split('/').pop() || "";
-    let caption = moodCaptions[index % moodCaptions.length];
-
-    if (filename === "7.jpeg") caption = "Entre folhas e sorrisos!";
-    if (filename === "8.jpeg") caption = "Flores que acompanham o instante!";
-    if (filename === "9.jpeg") caption = "Leveza e cor em um instante de graça!";
-    if (filename === "26.jpeg") caption = "Pés na areia, coração leve!";
-    if (filename === "27.jpeg") caption = "Página aberta no jardim!";
-    if (filename === "29.jpeg") caption = "Um sopro para começar uma nova fase!";
-    if (filename === "18.jpeg") caption = "Um sorriso que conta sem palavras!";
-    if (filename === "WhatsApp Image 2026-04-25 at 15.15.39.jpeg") caption = "Horizonte nos olhos, leveza no sorriso!";
-    if (filename === "28.jpeg") caption = "Da gratuidade, nasce um sorriso!";
-    if (filename === "12.jpeg") caption = "Um traço que ecoa no reflexo!";
-    
-    // Swap 10 and 11
-    if (filename === "10.jpeg") caption = "Pétalas de um sonho!";
-    if (filename === "11.jpeg") caption = "A magia de florescer!";
-
-    return { url: module.default, caption };
-  });
-
-const destaqueImagesRaw = import.meta.glob('./assets/destaque-compressed/*.{jpg,jpeg,png,JPG,JPEG}', { eager: true });
-const festaImagesRaw = import.meta.glob('./assets/festa-compressed/*.{jpg,jpeg,png,JPG,JPEG}', { eager: true });
-const decorImagesRaw = import.meta.glob('./assets/decoracoes-compressed/*.{jpg,jpeg,png,JPG,JPEG}', { eager: true });
-
-const destaqueImages = Object.keys(destaqueImagesRaw)
-  .sort((a, b) => {
-    const aNum = parseInt(a.split('/').pop()?.split('.')[0] || '0');
-    const bNum = parseInt(b.split('/').pop()?.split('.')[0] || '0');
-    return aNum - bNum;
-  })
-  .map((key) => (destaqueImagesRaw[key] as any).default);
-
-const festaImagesBase = Object.values(festaImagesRaw).map((module: any) => module.default);
-
-const decorImages = Object.keys(decorImagesRaw)
-  .sort((a, b) => {
-    const aNum = parseInt(a.split('/').pop()?.split('.')[0] || '0');
-    const bNum = parseInt(b.split('/').pop()?.split('.')[0] || '0');
-    return aNum - bNum;
-  })
-  .map((key) => (decorImagesRaw[key] as any).default);
-
-const festaImages = [...destaqueImages, ...festaImagesBase, ...decorImages];
+const moodImagesRaw = import.meta.glob('./assets/Galeria Mood/*.{jpg,jpeg,png,JPG,JPEG}');
+const destaqueImagesRaw = import.meta.glob('./assets/destaque-compressed/*.{jpg,jpeg,png,JPG,JPEG}');
+const festaImagesRaw = import.meta.glob('./assets/festa-compressed/*.{jpg,jpeg,png,JPG,JPEG}');
+const decorImagesRaw = import.meta.glob('./assets/decoracoes-compressed/*.{jpg,jpeg,png,JPG,JPEG}');
 
 const Section = ({ children, className = "", id }: { children: React.ReactNode, className?: string, id?: string }) => (
   <motion.section
@@ -102,14 +39,73 @@ const App: React.FC = () => {
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [moodImages, setMoodImages] = useState<any[]>([]);
+  const [festaImages, setFestaImages] = useState<string[]>([]);
   const [visibleCount, setVisibleCount] = useState(15);
-  
   const [comments, setComments] = useState<any[]>([]);
   const [newName, setNewName] = useState('');
   const [newMessage, setNewMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
+    const loadAllImages = async () => {
+      // 1. Load Mood Images
+      const moodCaptions = [
+        "A magia de florescer!", "Pétalas de um sonho!", "Páginas de uma nova história!",
+        "Um sorriso que dança!", "Brilho no olhar!", "Encanto em cada detalhe!",
+        "Onde os sonhos moram!", "Natureza em festa!", "Jardim da juventude!",
+        "Luzes de uma nova estação!", "Sorrisos que iluminam!", "15 primaveras!",
+        "Reflexo da alma!", "Beleza atemporal!", "Um instante eternizado!"
+      ];
+
+      const loadedMood = await Promise.all(
+        Object.entries(moodImagesRaw)
+          .filter(([path]) => !path.includes('jardimsecreto.jpg') && !path.includes('jardimrevelado.jpg'))
+          .map(async ([path, loader]: any, index) => {
+            const module: any = await loader();
+            const filename = path.split('/').pop() || "";
+            let caption = moodCaptions[index % moodCaptions.length];
+
+            if (filename === "7.jpeg") caption = "Entre folhas e sorrisos!";
+            if (filename === "8.jpeg") caption = "Flores que acompanham o instante!";
+            if (filename === "9.jpeg") caption = "Leveza e cor em um instante de graça!";
+            if (filename === "26.jpeg") caption = "Pés na areia, coração leve!";
+            if (filename === "27.jpeg") caption = "Página aberta no jardim!";
+            if (filename === "29.jpeg") caption = "Um sopro para começar uma nova fase!";
+            if (filename === "18.jpeg") caption = "Um sorriso que conta sem palavras!";
+            if (filename === "WhatsApp Image 2026-04-25 at 15.15.39.jpeg") caption = "Horizonte nos olhos, leveza no sorriso!";
+            if (filename === "28.jpeg") caption = "Da gratuidade, nasce um sorriso!";
+            if (filename === "12.jpeg") caption = "Um traço que ecoa no reflexo!";
+            
+            if (filename === "10.jpeg") caption = "Pétalas de um sonho!";
+            if (filename === "11.jpeg") caption = "A magia de florescer!";
+
+            return { url: module.default, caption };
+          })
+      );
+      setMoodImages(loadedMood);
+
+      // 2. Load Festa Images
+      const [destaque, festa, decor] = await Promise.all([
+        Promise.all(Object.keys(destaqueImagesRaw).sort((a, b) => {
+          const aNum = parseInt(a.split('/').pop()?.split('.')[0] || '0');
+          const bNum = parseInt(b.split('/').pop()?.split('.')[0] || '0');
+          return aNum - bNum;
+        }).map(async (key) => ((await (destaqueImagesRaw[key] as any)()) as any).default)),
+        
+        Promise.all(Object.values(festaImagesRaw).map(async (loader: any) => ((await loader()) as any).default)),
+        
+        Promise.all(Object.keys(decorImagesRaw).sort((a, b) => {
+          const aNum = parseInt(a.split('/').pop()?.split('.')[0] || '0');
+          const bNum = parseInt(b.split('/').pop()?.split('.')[0] || '0');
+          return aNum - bNum;
+        }).map(async (key) => ((await (decorImagesRaw[key] as any)()) as any).default))
+      ]);
+
+      setFestaImages([...destaque, ...festa, ...decor]);
+    };
+
+    loadAllImages();
     fetchComments();
   }, []);
 
@@ -405,7 +401,7 @@ const App: React.FC = () => {
             ))}
           </div>
           
-          {visibleCount < festaImages.length && (
+          {festaImages.length > 0 && visibleCount < festaImages.length && (
             <div className="mt-16 flex justify-center">
               <button 
                 onClick={() => setVisibleCount(prev => prev + 15)}
