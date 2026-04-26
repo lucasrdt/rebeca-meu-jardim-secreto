@@ -18,7 +18,7 @@ import jardimReveladoImg from './assets/Galeria Mood/jardimrevelado.jpg';
 
 const moodImagesRaw = import.meta.glob('./assets/Galeria Mood/*.{jpg,jpeg,png,JPG,JPEG}', { eager: true });
 const moodImages = Object.entries(moodImagesRaw)
-  .filter(([path]) => !path.includes('jardimsecreto.jpg'))
+  .filter(([path]) => !path.includes('jardimsecreto.jpg') && !path.includes('jardimrevelado.jpg'))
   .map(([_, module]: any) => module.default);
 
 const moodCaptions = [
