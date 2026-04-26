@@ -39,8 +39,15 @@ const moodCaptions = [
   "Um instante eternizado"
 ];
 
-const festaImagesRaw = import.meta.glob('./assets/festa-compressed/*.JPG', { eager: true });
-const festaImages = Object.values(festaImagesRaw).map((module: any) => module.default);
+const destaqueImagesRaw = import.meta.glob('./assets/destaque-compressed/*.{jpg,jpeg,png,JPG,JPEG}', { eager: true });
+const festaImagesRaw = import.meta.glob('./assets/festa-compressed/*.{jpg,jpeg,png,JPG,JPEG}', { eager: true });
+const decorImagesRaw = import.meta.glob('./assets/decoracoes-compressed/*.{jpg,jpeg,png,JPG,JPEG}', { eager: true });
+
+const destaqueImages = Object.values(destaqueImagesRaw).map((module: any) => module.default);
+const festaImagesBase = Object.values(festaImagesRaw).map((module: any) => module.default);
+const decorImages = Object.values(decorImagesRaw).map((module: any) => module.default);
+
+const festaImages = [...destaqueImages, ...festaImagesBase, ...decorImages];
 
 const Section = ({ children, className = "", id }: { children: React.ReactNode, className?: string, id?: string }) => (
   <motion.section
@@ -193,24 +200,17 @@ const App: React.FC = () => {
 
         <div className="max-w-7xl mx-auto w-full px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-8 items-center relative z-10">
           
+
+            
           <motion.div 
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="flex flex-col items-center lg:items-start text-center lg:text-left"
           >
-            <motion.span 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="text-lg md:text-xl uppercase tracking-[0.6em] text-sage font-light mb-6"
-            >
-              Capa de Memórias
-            </motion.span>
-            
             <div className="relative">
-              <h1 className="text-8xl md:text-[9.5rem] lg:text-[11rem] font-cursive text-gold leading-none lg:-ml-6 drop-shadow-sm">
-                Rebeca 15
+              <h1 className="text-8xl md:text-[9.5rem] lg:text-[11rem] font-cursive text-gold leading-none lg:-ml-6 drop-shadow-sm flex items-baseline whitespace-nowrap justify-center lg:justify-start">
+                Rebeca 15<span className="text-xl md:text-2xl lg:text-3xl font-serif italic opacity-70 -ml-1 md:-ml-2 lg:-ml-3">anos</span>
               </h1>
               <motion.div 
                 initial={{ width: 0 }}
@@ -266,7 +266,7 @@ const App: React.FC = () => {
               initial={{ opacity: 0, rotate: 15, scale: 0.8 }}
               animate={{ opacity: 1, rotate: 0, scale: 1 }}
               transition={{ delay: 1.8, duration: 1 }}
-              className="absolute top-32 -left-12 z-20 text-rose/80 drop-shadow-lg"
+              className="absolute top-32 left-20 z-20 text-rose/80 drop-shadow-lg"
             >
               <Flower2 size={90} strokeWidth={1} className="transform -rotate-12" />
             </motion.div>
@@ -437,7 +437,7 @@ const App: React.FC = () => {
                 <MapPin className="text-moss" />
               </div>
               <h3 className="font-serif text-xl mb-1">Local</h3>
-              <p className="text-moss/70 text-sm">Casa Veneza - Av. Joaquim Mochel, 45, Cohab IV, São Luís, MA</p>
+              <p className="text-moss/70 text-sm">Casa Veneza - Av. Joaquim Mochel, 45, Cohatrac IV, São Luís, MA</p>
             </div>
           </div>
           
@@ -462,7 +462,7 @@ const App: React.FC = () => {
           
           <div className="text-center mb-12 relative z-10">
             <h2 className="text-4xl md:text-5xl font-serif text-moss mb-4">Livro de Assinaturas</h2>
-            <p className="text-sage italic font-serif text-xl">Deixe um recadinho para a Rebeca ler depois!</p>
+            <p className="text-sage italic font-serif text-xl">Deixe aqui um recadinho especial para a Rebeca!</p>
             <div className="h-px w-24 bg-gold mx-auto mt-6" />
           </div>
 
