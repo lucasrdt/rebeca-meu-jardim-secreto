@@ -17,27 +17,48 @@ import heroImg from './assets/Galeria Mood/jardimsecreto.jpg';
 import jardimReveladoImg from './assets/Galeria Mood/jardimrevelado.jpg';
 
 const moodImagesRaw = import.meta.glob('./assets/Galeria Mood/*.{jpg,jpeg,png,JPG,JPEG}', { eager: true });
-const moodImages = Object.entries(moodImagesRaw)
-  .filter(([path]) => !path.includes('jardimsecreto.jpg') && !path.includes('jardimrevelado.jpg'))
-  .map(([_, module]: any) => module.default);
 
 const moodCaptions = [
-  "A magia de florescer",
-  "Pétalas de um sonho",
-  "Páginas de uma nova história",
-  "Um sorriso que dança",
-  "Brilho no olhar",
-  "Encanto em cada detalhe",
-  "Onde os sonhos moram",
-  "Natureza em festa",
-  "Jardim da juventude",
-  "Luzes de uma nova estação",
-  "Sorrisos que iluminam",
-  "15 primaveras",
-  "Reflexo da alma",
-  "Beleza atemporal",
-  "Um instante eternizado"
+  "A magia de florescer!",
+  "Pétalas de um sonho!",
+  "Páginas de uma nova história!",
+  "Um sorriso que dança!",
+  "Brilho no olhar!",
+  "Encanto em cada detalhe!",
+  "Onde os sonhos moram!",
+  "Natureza em festa!",
+  "Jardim da juventude!",
+  "Luzes de uma nova estação!",
+  "Sorrisos que iluminam!",
+  "15 primaveras!",
+  "Reflexo da alma!",
+  "Beleza atemporal!",
+  "Um instante eternizado!"
 ];
+
+const moodImages = Object.entries(moodImagesRaw)
+  .filter(([path]) => !path.includes('jardimsecreto.jpg') && !path.includes('jardimrevelado.jpg'))
+  .map(([path, module]: any, index) => {
+    const filename = path.split('/').pop() || "";
+    let caption = moodCaptions[index % moodCaptions.length];
+
+    if (filename === "7.jpeg") caption = "Entre folhas e sorrisos!";
+    if (filename === "8.jpeg") caption = "Flores que acompanham o instante!";
+    if (filename === "9.jpeg") caption = "Leveza e cor em um instante de graça!";
+    if (filename === "26.jpeg") caption = "Pés na areia, coração leve!";
+    if (filename === "27.jpeg") caption = "Página aberta no jardim!";
+    if (filename === "29.jpeg") caption = "Um sopro para começar uma nova fase!";
+    if (filename === "18.jpeg") caption = "Um sorriso que conta sem palavras!";
+    if (filename === "WhatsApp Image 2026-04-25 at 15.15.39.jpeg") caption = "Horizonte nos olhos, leveza no sorriso!";
+    if (filename === "28.jpeg") caption = "Da gratuidade, nasce um sorriso!";
+    if (filename === "12.jpeg") caption = "Um traço que ecoa no reflexo!";
+    
+    // Swap 10 and 11
+    if (filename === "10.jpeg") caption = "Pétalas de um sonho!";
+    if (filename === "11.jpeg") caption = "A magia de florescer!";
+
+    return { url: module.default, caption };
+  });
 
 const destaqueImagesRaw = import.meta.glob('./assets/destaque-compressed/*.{jpg,jpeg,png,JPG,JPEG}', { eager: true });
 const festaImagesRaw = import.meta.glob('./assets/festa-compressed/*.{jpg,jpeg,png,JPG,JPEG}', { eager: true });
@@ -330,7 +351,7 @@ const App: React.FC = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {moodImages.map((imgUrl, index) => (
+          {moodImages.map((image, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
@@ -338,13 +359,13 @@ const App: React.FC = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.8 }}
               className={`polaroid group cursor-pointer ${index % 2 === 0 ? 'md:mt-12' : ''}`}
-              onClick={() => setSelectedImage(imgUrl)}
+              onClick={() => setSelectedImage(image.url)}
             >
               <div className="relative overflow-hidden mb-4 aspect-[4/5]">
-                <img src={imgUrl} loading="lazy" alt={`Mood ${index+1}`} className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700" />
+                <img src={image.url} loading="lazy" alt={`Mood ${index+1}`} className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700" />
                 <div className="absolute inset-0 border-[10px] border-white/20 pointer-events-none" />
               </div>
-              <p className="font-cursive text-xl text-sage text-center">{moodCaptions[index % moodCaptions.length]}</p>
+              <p className="font-cursive text-xl text-sage text-center">{image.caption}</p>
             </motion.div>
           ))}
         </div>
@@ -379,7 +400,7 @@ const App: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <p className="font-cursive text-base text-sage text-center px-2 leading-tight">Momentos que ficam para sempre...</p>
+                <p className="font-cursive text-base text-sage text-center px-2 leading-tight">Momentos que ficam para sempre!</p>
               </motion.div>
             ))}
           </div>
@@ -451,7 +472,7 @@ const App: React.FC = () => {
                 <MapPin className="text-moss" />
               </div>
               <h3 className="font-serif text-xl mb-1">Local</h3>
-              <p className="text-moss/70 text-sm">Casa Veneza - Av. Joaquim Mochel, 45, Cohatrac IV, São Luís, MA</p>
+              <p className="text-moss/70 text-sm">Av. Joaquim Mochel, 45, Cohatrac IV, São Luís, MA.</p>
             </div>
           </div>
           
