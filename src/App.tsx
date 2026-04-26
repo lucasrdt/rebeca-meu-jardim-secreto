@@ -474,7 +474,7 @@ const App: React.FC = () => {
           
           <div className="mt-16 text-center">
             <a 
-              href="https://goo.gl/maps/placeholder" 
+              href="https://www.google.com/maps?sca_esv=164079556523993e&output=search&q=casa+veneza&source=lnms&fbs=ADc_l-acAb_3MMOAUx0zmbUpgBqRiigBgL2I_pgQa-94zvB052o5_U4JdDD4XfFI3UtcdNt6dgzX2lLlU-GMYwiDL1EJNR_KHS95ryyIx4BRCV_e6hRG2SrPa9nTOB7qw7o6-3PEqVg0xigofs6P4YYkeZ7LY7mcHJsSoWA-g1saC73Cd-nJa26HJ_DTe2-ypGkpMeWRjrep_gXNUIJ2-gZ8gFnXGbvthw&entry=mc&ved=1t:200715&ictx=111" 
               target="_blank" 
               className="px-10 py-4 bg-moss text-cream rounded-full font-medium hover:bg-gold transition-all duration-300 shadow-lg shadow-moss/20 inline-block"
             >
