@@ -41,7 +41,7 @@ const App: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [moodImages, setMoodImages] = useState<any[]>([]);
   const [festaImages, setFestaImages] = useState<string[]>([]);
-  const [visibleCount, setVisibleCount] = useState(15);
+  const [visibleCount, setVisibleCount] = useState(24);
   const [comments, setComments] = useState<any[]>([]);
   const [newName, setNewName] = useState('');
   const [newMessage, setNewMessage] = useState('');
@@ -93,7 +93,7 @@ const App: React.FC = () => {
           return aNum - bNum;
         }).map(async (key) => ((await (destaqueImagesRaw[key] as any)()) as any).default)),
         
-        Promise.all(Object.values(festaImagesRaw).map(async (loader: any) => ((await loader()) as any).default)),
+        Promise.all(Object.keys(festaImagesRaw).sort().map(async (key) => ((await (festaImagesRaw[key] as any)()) as any).default)),
         
         Promise.all(Object.keys(decorImagesRaw).sort((a, b) => {
           const aNum = parseInt(a.split('/').pop()?.split('.')[0] || '0');
@@ -404,7 +404,7 @@ const App: React.FC = () => {
           {festaImages.length > 0 && visibleCount < festaImages.length && (
             <div className="mt-16 flex justify-center">
               <button 
-                onClick={() => setVisibleCount(prev => prev + 15)}
+                onClick={() => setVisibleCount(prev => prev + 24)}
                 className="px-8 py-3 bg-white border border-sage/30 text-moss font-medium rounded-full shadow-sm hover:bg-gold hover:text-white hover:border-gold transition-all duration-300"
               >
                 Carregar mais fotos ({visibleCount} de {festaImages.length})
